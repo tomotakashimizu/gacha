@@ -1,6 +1,6 @@
 package gacha
 
-import "fmt"
+import "errors"
 
 type Player struct {
 	tickets int // ガチャ券の枚数
@@ -17,11 +17,10 @@ func (p *Player) DrawableNum() int {
 	return p.tickets + p.coin/10
 }
 
-func (p *Player) draw(n int) {
+func (p *Player) draw(n int) error {
 
 	if p.DrawableNum() < n {
-		fmt.Println("ガチャ券またはコインが不足しています")
-		return
+		return errors.New("ガチャ券またはコインが不足しています")
 	}
 
 	// ガチャ券から優先的に使う
@@ -32,4 +31,6 @@ func (p *Player) draw(n int) {
 		p.tickets = 0
 		p.coin -= n * 10 // 1回あたり10枚消費する
 	}
+
+	return nil
 }
