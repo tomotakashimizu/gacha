@@ -11,8 +11,10 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-func DrawN(p *Player, n int) ([]*Card, map[Rarity]int) {
-	p.draw(n)
+func DrawN(p *Player, n int) ([]*Card, map[Rarity]int, error) {
+	if err := p.draw(n); err != nil {
+		return nil, nil, err
+	}
 
 	results := make([]*Card, n)
 	summary := make(map[Rarity]int)
@@ -22,7 +24,7 @@ func DrawN(p *Player, n int) ([]*Card, map[Rarity]int) {
 	}
 
 	// 変数resultsとsummaryの値を戻り値として返す
-	return results, summary
+	return results, summary, nil
 }
 
 func draw() *Card {
